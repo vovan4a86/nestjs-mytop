@@ -1,5 +1,5 @@
-import { TimeStamps, Base } from "@typegoose/typegoose/lib/defaultClasses";
-import { prop } from "@typegoose/typegoose";
+import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses';
+import { prop } from '@typegoose/typegoose';
 
 export enum TopLevelCategory {
   Courses,
@@ -10,56 +10,56 @@ export enum TopLevelCategory {
 
 export class HhData {
   @prop()
-  count: number
+  count: number;
 
   @prop()
-  juniorSalary: number
+  juniorSalary: number;
 
   @prop()
-  middleSalary: number
+  middleSalary: number;
 
   @prop()
-  seniorSalary: number
+  seniorSalary: number;
 }
 
 export class MainPageAdvantage {
   @prop()
-  title: string
+  title: string;
 
   @prop()
-  description: string
+  description: string;
 }
 
 export interface MainPageModel extends Base {}
 export class MainPageModel extends TimeStamps {
 
   @prop({ enum: TopLevelCategory })
-  firstCategory: TopLevelCategory
+  firstCategory: TopLevelCategory;
 
   @prop()
-  secondCategory: string
+  secondCategory: string;
 
   @prop({ unique: true })
-  alias: string
+  alias: string;
 
   @prop()
-  title: string
+  title: string;
 
   @prop()
-  category: string
+  category: string;
 
   @prop({ type: () => [HhData]})
-  hh?: HhData
+  hh?: HhData;
 
   @prop({ type: () => [MainPageAdvantage] })
-  advantages: MainPageAdvantage[]
+  advantages: MainPageAdvantage[];
 
   @prop()
-  seoText: string
+  seoText: string;
 
   @prop()
-  tagsTitle: string
+  tagsTitle: string;
 
   @prop({ type: () => [String] })
-  tags: string[]
+  tags: string[];
 }

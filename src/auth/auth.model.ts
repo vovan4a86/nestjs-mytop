@@ -1,5 +1,5 @@
-import { prop } from "@typegoose/typegoose";
-import { TimeStamps, Base } from "@typegoose/typegoose/lib/defaultClasses";
+import { prop } from '@typegoose/typegoose';
+import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 //наследуем Base через interface т.к. нельзя расширять одновременно от двух классов (TimeStamp и Base)
 //TimeStamp добавит поля createdAt, updatedAt: Date
@@ -7,8 +7,8 @@ import { TimeStamps, Base } from "@typegoose/typegoose/lib/defaultClasses";
 export interface AuthModel extends Base {}
 export class AuthModel extends TimeStamps {
   @prop({ unique: true }) //поле уникальное и является индексом (index: true)
-  email: string
+  email: string;
 
   @prop()
-  passwordHash: string
+  passwordHash: string;
 }

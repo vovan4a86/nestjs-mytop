@@ -5,25 +5,25 @@ import { AuthModule } from './auth/auth.module';
 import { ReviewModule } from './review/review.module';
 import { ProductModule } from './product/product.module';
 import { MainPageModule } from './main-page/main-page.module';
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { TypegooseModule } from "nestjs-typegoose";
-import { getMongoConfig } from "./configs/mongo.config";
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypegooseModule } from 'nestjs-typegoose';
+import { getMongoConfig } from './configs/mongo.config';
 
 @Module({
   imports: [
-    //подключаем .env
-    ConfigModule.forRoot(),
-    //подключаемся к БД
-    TypegooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      //вынесли в отдельный файл создание файла настроек БД /configs/mongo.config.ts
-      useFactory: getMongoConfig
-    }),
-    AuthModule,
-    ReviewModule,
-    ProductModule,
-    MainPageModule
+	//подключаем .env
+	ConfigModule.forRoot(),
+	//подключаемся к БД
+	TypegooseModule.forRootAsync({
+		imports: [ConfigModule],
+		inject: [ConfigService],
+		//вынесли в отдельный файл создание файла настроек БД /configs/mongo.config.ts
+		useFactory: getMongoConfig
+	}),
+	AuthModule,
+	ReviewModule,
+	ProductModule,
+	MainPageModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,7 +1,6 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from "@nestjs/common";
-import { FindProductDto } from "../product/dto/find-product.dto";
-import { MainPageModel } from "./main-page.model";
-import { FindMainPageDto } from "./dto/find-main-page.dto";
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
+import { FindMainPageDto } from './dto/find-main-page.dto';
+import { MainPageModel } from './main-page.model';
 
 @Controller('main-page')
 export class MainPageController {
