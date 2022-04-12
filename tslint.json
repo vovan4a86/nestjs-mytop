@@ -8,7 +8,7 @@
     "prefer-for-of": true,
     "forin": true,
     "no-console": [
-      true,
+      false,
       "log",
       "error"
     ],
