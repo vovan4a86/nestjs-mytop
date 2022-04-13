@@ -17,4 +17,6 @@
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
             tags: "develop"
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.DOCKER_TOKEN }}
 
