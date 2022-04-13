@@ -23,7 +23,6 @@ export class ProductService {
 	async deleteById(id: string): Promise<DocumentType<ProductModel> | null> {
 		return this.productModel.findByIdAndDelete(id).exec();
 	}
-
 	async updateById(id: string, dto: CreateProductDto) {
 		//без дополнительных опций все Update возвращают предыдущую версию документа
 		//new: true - возвратит обновленную
@@ -33,6 +32,7 @@ export class ProductService {
 	}
 
 	//агрегация данных
+	//https://www.mongodb.com/docs/v4.4/reference/operator/aggregation/
 	async findWithReviews(dto: FindProductDto) {
 		//последовательные шаги (Stages), которые в конце выдадут финальную модель
 		return this.productModel.aggregate([
@@ -61,7 +61,19 @@ export class ProductService {
 			{
 				$addFields: {
 					reviewCount: { $size: '$reviews' },
-					reviewAvg: { $avg: '$reviews.rating' }
+					reviewAvg: { $avg: '$reviews.rating' },
+					//свои функции только в Mongo 4.4 и выше
+					reviews: {
+						//сортировка отзывов по дате от самых новых
+						$function: {
+							body: `function (reviews) {
+								reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+								return reviews;
+							}`,
+							args: ['$reviews'],
+							lang: 'js'
+						}
+					}
 				}
 			}
 		]).exec() as (ProductModel & { review: ReviewModel[], reviewCount: number, reviewAvg: number})[];

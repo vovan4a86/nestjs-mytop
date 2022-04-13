@@ -7,7 +7,7 @@ import {
 	NotFoundException,
 	Param,
 	Patch,
-	Post,
+	Post, UseGuards,
 	UsePipes,
 	ValidationPipe,
 } from '@nestjs/common';
@@ -16,12 +16,15 @@ import { FindProductDto } from './dto/find-product.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductService } from './product.service';
 import { PRODUCT_NOT_FOUND_ERROR } from './product.constants';
+import { IdValidationPipe } from '../pipes/id-validation.pipe';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 
 @Controller('product')
 export class ProductController {
 	constructor(private readonly productService: ProductService) {
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@UsePipes(new ValidationPipe())
 	@Post('create')
 	//Omit - исключить из модели '_id', он добавляется БД (Pick - включить необходимые поля)
@@ -31,8 +34,9 @@ export class ProductController {
 		return this.productService.create(dto);
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Get(':id')
-	async get(@Param('id') id: string) {
+	async get(@Param('id', IdValidationPipe) id: string) {
 		const product = await this.productService.findById(id);
 		if(!product) {
 			throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR);
@@ -40,8 +44,9 @@ export class ProductController {
 		return product;
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Delete(':id')
-	async delete(@Param('id') id: string) {
+	async delete(@Param('id', IdValidationPipe) id: string) {
 		const deletedProduct = await this.productService.deleteById(id);
 		if(!deletedProduct) {
 			throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR);
@@ -49,8 +54,9 @@ export class ProductController {
 		//вернет code 200
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Patch(':id')
-	async patch(@Param('id') id: string, @Body() dto: ProductModel) {
+	async patch(@Param('id', IdValidationPipe) id: string, @Body() dto: ProductModel) {
 		const updatedProduct = await this.productService.updateById(id, dto);
 		if(!updatedProduct) {
 			throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR);

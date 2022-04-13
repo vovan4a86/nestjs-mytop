@@ -1,6 +1,8 @@
 import { IsArray, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
+//https://github.com/typestack/class-validator
+
 class ProductCharacteristicDto {
 	@IsString()
 	name: string;

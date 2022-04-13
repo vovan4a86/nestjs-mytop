@@ -1,5 +1,5 @@
 import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses';
-import { prop } from '@typegoose/typegoose';
+import { index, prop } from '@typegoose/typegoose';
 
 export enum TopLevelCategory {
   Courses,
@@ -31,19 +31,23 @@ export class MainPageAdvantage {
 }
 
 export interface MainPageModel extends Base {}
+
+// @index({ title: 'text', seoText: 'text'}) //поиск по определенным полям
+@index({ '$**': 'text'})  //с заходом во все массивы и объекты
 export class MainPageModel extends TimeStamps {
 
   @prop({ enum: TopLevelCategory })
   firstCategory: TopLevelCategory;
 
   @prop()
-  secondCategory: string;
+  secondCategory: string; // ex. ДИЗАЙН, РАЗАРАБОТКА, МАРКЕТИНГ
 
   @prop({ unique: true })
-  alias: string;
+  alias: string;  // ex. photoshop
 
+  // @prop({ text: true }) //текстовый индекс
   @prop()
-  title: string;
+  title: string;  //курсы по photoshop
 
   @prop()
   category: string;
