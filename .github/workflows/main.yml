@@ -13,7 +13,6 @@
           uses: elgohr/Publish-Docker-Github-Action@v4
           with:
             registry: docker.pkg.github.com
-            repo-token: ${{ secrets.DOCKER_TOKEN }}
             name: docker.pkg.github.com/amer1can/nestjs-mytop/mytop-demo
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
