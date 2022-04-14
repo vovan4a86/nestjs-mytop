@@ -8,12 +8,13 @@
     build:
       runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@master
+        - uses: actions/checkout@v4
         - name: Publish to registry
           uses: elgohr/Publish-Docker-Github-Action@v4
           with:
             registry: docker.pkg.github.com
             name: docker.pkg.github.com/amer1can/nestjs-mytop/mytop-demo
+            access-token: ${{ secrets.ACCESS_TOKEN }}
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
             tags: "develop"
