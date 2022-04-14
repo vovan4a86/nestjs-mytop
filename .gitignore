@@ -3,6 +3,7 @@
 /node_modules
 /mongo-data-4.4
 /mongo/mongo-data-4.4
+/mongodb
 
 # Logs
 logs
