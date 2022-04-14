@@ -12,9 +12,7 @@
         - name: Publish to registry
           uses: elgohr/Publish-Docker-Github-Action@master
           with:
-            registry: docker.pkg.github.com
-            name: docker.pkg.github.com/amer1can/nestjs-mytop/mytop-demo
+            name: amer1can/mytop-demo
             access-token: ${{ secrets.ACCESS_TOKEN }}
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
-            tags: "develop"
