@@ -1,5 +1,14 @@
 version: '3'
 services:
+  dbmongo:
+    image: mongo:latest
+    container_name: dbmongo
+    restart: always
+    ports:
+      - '27018:27017'
+    volumes:
+      - ./mongodb:/data/db
+    command: --wiredTigerCacheSizeGB 1.5
   mytopapi:
     image: amer1candocker/mytop-demo
     container_name: mytopapi
@@ -9,13 +18,5 @@ services:
     volumes:
       - ./.env:/opt/app/.env
     links:
-      - mongodb
-  mongodb:
-    image: mongo:4.4.4
-    container_name: mongodb
-    restart: always
-    ports:
-      - '27017:27017'
-    volumes:
-      - ./mongodb:/data/db
-    command: --wiredTigerCacheSizeGB 1.5
+      - dbmongo
+
