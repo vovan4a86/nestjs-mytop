@@ -1,0 +1,79 @@
+Dockerfile
+-----------------
+
+FROM node:12.19.0-alpine3.9 AS development
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install glob rimraf
+RUN npm install --only=development
+COPY . .
+RUN npm run build
+FROM node:12.19.0-alpine3.9 as production
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install --only=production
+COPY . .
+COPY --from=development /usr/src/app/dist ./dist
+CMD ["node", "dist/main"]
+
+
+docker-compose.yml
+---------------------
+version: '3.3'
+services:
+  dev:
+    container_name: nestjs_api_dev
+    image: nestjs-api-dev:1.0.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      command: npm run start:dev
+    ports:
+      - 3000:3000
+      - 3001:9229
+    networks:
+      - nestjs-network
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+  mongodb:
+    image : mongo:latest
+    container_name: mongodb
+    volumes:
+      - ./database:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - nestjs-network
+    restart: always
+  prod:
+    container_name: nestjs_api_prod
+    image: nestjs-api-prod:1.0.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: npm run start:prod
+    ports:
+      - 3000:3000
+      - 9229:9229
+    networks:
+      - nestjs-network
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+networks:
+    nestjs-network:
+      driver: bridge
+
+And that’s it! Now you can start the docker container with: sudo docker-compose up dev for the dev version
+and: sudo docker-compose up prod for the production version!
+
+“mongodb://mongodb:3000/DB” instead of “mongodb://localhost:3000/DB”
