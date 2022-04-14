@@ -1,10 +1,10 @@
 version: '3'
-service:
-  myapi:
-    image: my-api
-    container_name: myapi
+services:
+  mytopapi:
+    image: amer1candocker/mytop-demo
+    container_name: mytopapi
     restart: always
     ports:
       - 3000:3000
     volumes:
-      -./.env:/opt/app/.env
+      - ./.env:/opt/app/.env

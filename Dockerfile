@@ -14,4 +14,4 @@ RUN npm run build
 #почистить ненужные зависимости для production
 RUN npm prune --production
 #команда запуска
-CMD ["node", "./dist.main.js"]
+CMD ["node", "./dist/main.js"]
