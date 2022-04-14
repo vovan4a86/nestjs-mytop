@@ -5,7 +5,7 @@ services:
     container_name: mytopapi
     restart: always
     ports:
-      - 3000:3000
+      - '3000:3000'
     volumes:
       - ./.env:/opt/app/.env
     links:
@@ -14,30 +14,8 @@ services:
     image: mongo:4.4.4
     container_name: mongodb
     restart: always
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
     ports:
       - '27017:27017'
     volumes:
-      - ./mongo-data-4.4:/data/db
+      - ./mongodb:/data/db
     command: --wiredTigerCacheSizeGB 1.5
-
-
-
-#version: "3"
-#services:
-#  node-serv:
-#    container_name: node-serv
-#    image: node-serv
-#    restart: always
-#    build: .
-#    ports:
-#      - "8080:8080"
-#    links:
-#      - db
-#  db:
-#    container_name: db
-#    image: mongo
-#    ports:
-#      - '27017:27017'
