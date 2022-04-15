@@ -13,6 +13,5 @@
           uses: elgohr/Publish-Docker-Github-Action@master
           with:
             name: amer1candocker/mytop-demo
-            access-token: ${{ secrets.ACCESS_TOKEN }}
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
